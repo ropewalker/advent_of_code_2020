@@ -24,8 +24,8 @@ fn part1(entries: &[i32]) -> Option<i32> {
 fn part2(entries: &[i32]) -> Option<i32> {
     let dictionary: HashSet<_> = entries.iter().collect();
 
-    for i in 0..entries.len() {
-        for j in i..entries.len() {
+    for i in 0..entries.len() - 1 {
+        for j in i + 1..entries.len() {
             let first = entries[i];
             let second = entries[j];
 
