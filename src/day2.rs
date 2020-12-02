@@ -60,14 +60,10 @@ fn parse_line(line: &str) -> Result<PasswordEntry, ParsePasswordEntryError> {
 
 #[aoc_generator(day2)]
 fn parse_input(input: &str) -> Result<Vec<PasswordEntry>, ParsePasswordEntryError> {
-    let lines: Vec<_> = input.lines().collect();
-    let mut result = Vec::new();
-
-    for line in lines {
-        result.push(parse_line(line)?);
-    }
-
-    Ok(result)
+    input
+        .lines()
+        .map(|line| -> Result<_, _> { parse_line(line) })
+        .collect()
 }
 
 fn validate_password_part1(entry: &PasswordEntry) -> bool {
