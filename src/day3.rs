@@ -29,7 +29,9 @@ fn parse_input(input: &str) -> Map {
 fn count_trees(map: &Map, slope: &Slope) -> usize {
     map.trees
         .iter()
-        .filter(|(x, y)| (*y % slope.1 == 0) && (*x == (y / slope.1 * slope.0) % map.columns))
+        .filter(|(x, y)| {
+            ((y * slope.0) as i32 - (x * slope.1) as i32) % ((map.columns * slope.1) as i32) == 0
+        })
         .count()
 }
 
