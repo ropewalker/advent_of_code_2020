@@ -10,7 +10,7 @@ struct Map {
 
 #[aoc_generator(day3)]
 fn parse_input(input: &str) -> Map {
-    let columns = input.lines().next().expect("Empty map!").len();
+    let columns = input.lines().next().unwrap().len();
     let mut trees = Vec::new();
 
     for (down, line) in input.lines().enumerate() {

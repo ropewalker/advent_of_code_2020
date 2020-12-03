@@ -2,27 +2,11 @@ use aoc_runner_derive::{aoc, aoc_generator};
 
 fn parse_line(line: &str) -> PasswordEntry {
     let mut tokens = line.split_ascii_whitespace();
-    let mut range_split = tokens.next().expect("Empty input!").split('-');
-    let min = range_split
-        .next()
-        .expect("No min value in the policy!")
-        .parse::<usize>()
-        .expect("Wrong min value in the policy!");
-    let max = range_split
-        .next()
-        .expect("No max value in the policy!")
-        .parse::<usize>()
-        .expect("Wrong max value in the policy!");
-    let character = tokens
-        .next()
-        .expect("No character value in the policy!")
-        .chars()
-        .next()
-        .expect("No character value in the policy!");
-    let password = tokens
-        .next()
-        .expect("No password in the entry!")
-        .to_string();
+    let mut range_split = tokens.next().unwrap().split('-');
+    let min = range_split.next().unwrap().parse::<usize>().unwrap();
+    let max = range_split.next().unwrap().parse::<usize>().unwrap();
+    let character = tokens.next().unwrap().chars().next().unwrap();
+    let password = tokens.next().unwrap().to_string();
 
     PasswordEntry {
         min,
