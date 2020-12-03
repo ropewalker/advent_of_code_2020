@@ -29,8 +29,8 @@ fn parse_input(input: &str) -> Map {
 fn count_trees(map: &Map, slope: &Slope) -> usize {
     map.trees
         .iter()
-        .filter(|(x, y)| {
-            y * slope.0 % (map.columns * slope.1) == x * slope.1 % (map.columns * slope.1)
+        .filter(|(right, down)| {
+            down * slope.0 % (map.columns * slope.1) == right * slope.1 % (map.columns * slope.1)
         })
         .count()
 }
