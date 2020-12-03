@@ -62,37 +62,19 @@ mod tests {
 .#..#...#.#";
 
     #[test]
-    fn part1_example1() {
+    fn part1_example() {
         assert_eq!(part1(&parse_input(TEST_INPUT)), 7);
     }
 
     #[test]
-    fn part2_example1_1() {
-        assert_eq!(count_trees(&parse_input(TEST_INPUT), &(1, 1)), 2);
-    }
+    fn part2_example() {
+        let map = parse_input(TEST_INPUT);
 
-    #[test]
-    fn part2_example1_2() {
-        assert_eq!(count_trees(&parse_input(TEST_INPUT), &(3, 1)), 7);
-    }
-
-    #[test]
-    fn part2_example1_3() {
-        assert_eq!(count_trees(&parse_input(TEST_INPUT), &(5, 1)), 3);
-    }
-
-    #[test]
-    fn part2_example1_4() {
-        assert_eq!(count_trees(&parse_input(TEST_INPUT), &(7, 1)), 4);
-    }
-
-    #[test]
-    fn part2_example1_5() {
-        assert_eq!(count_trees(&parse_input(TEST_INPUT), &(1, 2)), 2);
-    }
-
-    #[test]
-    fn part3_example2() {
-        assert_eq!(part2(&parse_input(TEST_INPUT)), 336);
+        assert_eq!(count_trees(&map, &(1, 1)), 2);
+        assert_eq!(count_trees(&map, &(3, 1)), 7);
+        assert_eq!(count_trees(&map, &(5, 1)), 3);
+        assert_eq!(count_trees(&map, &(7, 1)), 4);
+        assert_eq!(count_trees(&map, &(1, 2)), 2);
+        assert_eq!(part2(&map), 336);
     }
 }

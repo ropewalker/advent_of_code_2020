@@ -76,32 +76,16 @@ mod tests {
     use super::*;
 
     #[test]
-    fn part1_example1() {
+    fn part1_example() {
         assert!(validate_password_part1(&parse_line("1-3 a: abcde")));
-    }
-
-    #[test]
-    fn part1_example2() {
         assert!(!validate_password_part1(&parse_line("1-3 b: cdefg")));
-    }
-
-    #[test]
-    fn part1_example3() {
         assert!(validate_password_part1(&parse_line("2-9 c: ccccccccc")));
     }
 
     #[test]
-    fn part2_example1() {
+    fn part2_example() {
         assert!(validate_password_part2(&parse_line("1-3 a: abcde")));
-    }
-
-    #[test]
-    fn part2_example2() {
         assert!(!validate_password_part2(&parse_line("1-3 b: cdefg")));
-    }
-
-    #[test]
-    fn part2_example3() {
         assert!(!validate_password_part2(&parse_line("2-9 c: ccccccccc")));
     }
 }

@@ -43,12 +43,12 @@ mod tests {
     use super::*;
 
     #[test]
-    fn part1_example1() {
+    fn part1_example() {
         assert_eq!(part1(&[1_721, 979, 366, 299, 675, 1_456]), Some(514_579));
     }
 
     #[test]
-    fn part2_example1() {
+    fn part2_example() {
         assert_eq!(
             part2(&[1_721, 979, 366, 299, 675, 1_456]),
             Some(241_861_950)
