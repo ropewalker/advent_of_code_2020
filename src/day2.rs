@@ -1,68 +1,42 @@
 use aoc_runner_derive::{aoc, aoc_generator};
-use std::error::Error;
-use std::fmt::{Display, Formatter};
-use std::num::ParseIntError;
 
-#[derive(Debug)]
-enum ParsePasswordEntryError {
-    EmptyEntry,
-    ParseRangeError,
-    NoCharacter,
-    NoPassword,
-}
-
-impl From<ParseIntError> for ParsePasswordEntryError {
-    fn from(_: ParseIntError) -> Self {
-        ParsePasswordEntryError::ParseRangeError
-    }
-}
-
-impl Display for ParsePasswordEntryError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", &self)
-    }
-}
-
-impl Error for ParsePasswordEntryError {}
-
-fn parse_line(line: &str) -> Result<PasswordEntry, ParsePasswordEntryError> {
+fn parse_line(line: &str) -> PasswordEntry {
     let mut tokens = line.split_ascii_whitespace();
-    let mut range_split = tokens
-        .next()
-        .ok_or(ParsePasswordEntryError::EmptyEntry)?
-        .split('-');
+    let mut range_split = tokens.next().expect("Empty input!").split('-');
     let min = range_split
         .next()
-        .ok_or(ParsePasswordEntryError::ParseRangeError)?
-        .parse::<usize>()?;
+        .expect("No min value in the policy!")
+        .parse::<usize>()
+        .expect("Wrong min value in the policy!");
     let max = range_split
         .next()
-        .ok_or(ParsePasswordEntryError::ParseRangeError)?
-        .parse::<usize>()?;
+        .expect("No max value in the policy!")
+        .parse::<usize>()
+        .expect("Wrong max value in the policy!");
     let character = tokens
         .next()
-        .ok_or(ParsePasswordEntryError::NoCharacter)?
+        .expect("No character value in the policy!")
         .chars()
         .next()
-        .ok_or(ParsePasswordEntryError::NoCharacter)?;
+        .expect("No character value in the policy!");
     let password = tokens
         .next()
-        .ok_or(ParsePasswordEntryError::NoPassword)?
+        .expect("No password in the entry!")
         .to_string();
 
-    Ok(PasswordEntry {
+    PasswordEntry {
         min,
         max,
         character,
         password,
-    })
+    }
 }
 
 #[aoc_generator(day2)]
-fn parse_input(input: &str) -> Result<Vec<PasswordEntry>, ParsePasswordEntryError> {
+fn parse_input(input: &str) -> Vec<PasswordEntry> {
     input
         .lines()
-        .map(|line| -> Result<_, _> { parse_line(line) })
+        .map(|line| -> _ { parse_line(line) })
         .collect()
 }
 
@@ -119,43 +93,31 @@ mod tests {
 
     #[test]
     fn part1_example1() {
-        assert!(validate_password_part1(
-            &parse_line("1-3 a: abcde").unwrap()
-        ));
+        assert!(validate_password_part1(&parse_line("1-3 a: abcde")));
     }
 
     #[test]
     fn part1_example2() {
-        assert!(!validate_password_part1(
-            &parse_line("1-3 b: cdefg").unwrap()
-        ));
+        assert!(!validate_password_part1(&parse_line("1-3 b: cdefg")));
     }
 
     #[test]
     fn part1_example3() {
-        assert!(validate_password_part1(
-            &parse_line("2-9 c: ccccccccc").unwrap()
-        ));
+        assert!(validate_password_part1(&parse_line("2-9 c: ccccccccc")));
     }
 
     #[test]
     fn part2_example1() {
-        assert!(validate_password_part2(
-            &parse_line("1-3 a: abcde").unwrap()
-        ));
+        assert!(validate_password_part2(&parse_line("1-3 a: abcde")));
     }
 
     #[test]
     fn part2_example2() {
-        assert!(!validate_password_part2(
-            &parse_line("1-3 b: cdefg").unwrap()
-        ));
+        assert!(!validate_password_part2(&parse_line("1-3 b: cdefg")));
     }
 
     #[test]
     fn part2_example3() {
-        assert!(!validate_password_part2(
-            &parse_line("2-9 c: ccccccccc").unwrap()
-        ));
+        assert!(!validate_password_part2(&parse_line("2-9 c: ccccccccc")));
     }
 }
