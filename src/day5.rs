@@ -45,7 +45,7 @@ fn part2(boarding_passes: &[BoardingPass]) -> usize {
     let mut ids: Vec<usize> = boarding_passes.iter().map(|pass| pass.0).collect();
     ids.sort_unstable();
 
-    ids[(ids[0]..ids[ids.len() - 1])
+    ids[(0..ids.len() - 1)
         .find(|&i| ids[i] + 1 != ids[i + 1])
         .unwrap()]
         + 1
