@@ -2,13 +2,15 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use std::collections::HashSet;
 use std::num::ParseIntError;
 
+type Entry = i32;
+
 #[aoc_generator(day1)]
-fn parse_input(input: &str) -> Result<Vec<i32>, ParseIntError> {
+fn parse_input(input: &str) -> Result<Vec<Entry>, ParseIntError> {
     input.lines().map(|l| l.parse()).collect()
 }
 
 #[aoc(day1, part1)]
-fn part1(entries: &[i32]) -> Option<i32> {
+fn part1(entries: &[Entry]) -> Option<Entry> {
     let dictionary: HashSet<_> = entries.iter().collect();
 
     for first in entries {
@@ -21,7 +23,7 @@ fn part1(entries: &[i32]) -> Option<i32> {
 }
 
 #[aoc(day1, part2)]
-fn part2(entries: &[i32]) -> Option<i32> {
+fn part2(entries: &[Entry]) -> Option<Entry> {
     let dictionary: HashSet<_> = entries.iter().collect();
 
     for i in 0..entries.len() - 1 {
