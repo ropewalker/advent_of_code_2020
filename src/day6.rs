@@ -1,19 +1,26 @@
 use aoc_runner_derive::{aoc, aoc_generator};
 use std::collections::HashSet;
 
-fn parse_group(group: &str) -> Vec<HashSet<char>> {
-    group.lines().map(|form| form.chars().collect()).collect()
-}
+type AnsweredYes = char;
+type Form = HashSet<AnsweredYes>;
+type Group = Vec<Form>;
 
-#[aoc_generator(day6)]
-fn parse_input(input: &str) -> Vec<Vec<HashSet<char>>> {
-    input
-        .split("\n\n")
-        .map(|group| parse_group(group))
+fn parse_group(group_str: &str) -> Group {
+    group_str
+        .lines()
+        .map(|form_str| form_str.chars().collect())
         .collect()
 }
 
-fn count_any_yes(group: &[HashSet<char>]) -> usize {
+#[aoc_generator(day6)]
+fn parse_input(input: &str) -> Vec<Group> {
+    input
+        .split("\n\n")
+        .map(|group_str| parse_group(group_str))
+        .collect()
+}
+
+fn count_any_yes(group: &[Form]) -> usize {
     group
         .iter()
         .fold(HashSet::new(), |acc, form| {
@@ -23,11 +30,11 @@ fn count_any_yes(group: &[HashSet<char>]) -> usize {
 }
 
 #[aoc(day6, part1)]
-fn part1(groups: &[Vec<HashSet<char>>]) -> usize {
+fn part1(groups: &[Group]) -> usize {
     groups.iter().map(|group| count_any_yes(group)).sum()
 }
 
-fn count_all_yes(group: &[HashSet<char>]) -> usize {
+fn count_all_yes(group: &[Form]) -> usize {
     group
         .iter()
         .skip(1)
@@ -38,7 +45,7 @@ fn count_all_yes(group: &[HashSet<char>]) -> usize {
 }
 
 #[aoc(day6, part2)]
-fn part2(groups: &[Vec<HashSet<char>>]) -> usize {
+fn part2(groups: &[Group]) -> usize {
     groups.iter().map(|group| count_all_yes(group)).sum()
 }
 
