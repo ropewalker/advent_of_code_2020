@@ -2,7 +2,7 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use std::collections::HashSet;
 
 fn parse_group(group: &str) -> Vec<HashSet<char>> {
-    group.lines().map(|line| line.chars().collect()).collect()
+    group.lines().map(|form| form.chars().collect()).collect()
 }
 
 #[aoc_generator(day6)]
@@ -16,8 +16,8 @@ fn parse_input(input: &str) -> Vec<Vec<HashSet<char>>> {
 fn count_any_yes(group: &[HashSet<char>]) -> usize {
     group
         .iter()
-        .fold(group[0].clone(), |union, individual| {
-            union.union(individual).cloned().collect()
+        .fold(group[0].clone(), |acc, form| {
+            acc.union(form).cloned().collect()
         })
         .len()
 }
@@ -30,8 +30,8 @@ fn part1(groups: &[Vec<HashSet<char>>]) -> usize {
 fn count_all_yes(group: &[HashSet<char>]) -> usize {
     group
         .iter()
-        .fold(group[0].clone(), |union, individual| {
-            union.intersection(individual).cloned().collect()
+        .fold(group[0].clone(), |acc, form| {
+            acc.intersection(form).cloned().collect()
         })
         .len()
 }
