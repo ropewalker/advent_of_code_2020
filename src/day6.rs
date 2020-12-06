@@ -16,7 +16,7 @@ fn parse_input(input: &str) -> Vec<Vec<HashSet<char>>> {
 fn count_any_yes(group: &[HashSet<char>]) -> usize {
     group
         .iter()
-        .fold(group[0].clone(), |acc, form| {
+        .fold(HashSet::new(), |acc, form| {
             acc.union(form).cloned().collect()
         })
         .len()
@@ -30,6 +30,7 @@ fn part1(groups: &[Vec<HashSet<char>>]) -> usize {
 fn count_all_yes(group: &[HashSet<char>]) -> usize {
     group
         .iter()
+        .skip(1)
         .fold(group[0].clone(), |acc, form| {
             acc.intersection(form).cloned().collect()
         })
