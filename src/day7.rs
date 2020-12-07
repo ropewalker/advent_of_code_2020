@@ -62,7 +62,7 @@ fn part1(rules: &Rules) -> usize {
         shade: "shiny".to_string(),
     };
 
-    let mut visited: HashSet<&Color> = HashSet::new();
+    let mut visited: HashSet<&Color> = rules.get(&target_color).unwrap().keys().collect();
     let mut stack: Vec<Node> = rules
         .keys()
         .map(|color| Node {
