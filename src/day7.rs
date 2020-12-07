@@ -1,5 +1,5 @@
 use aoc_runner_derive::{aoc, aoc_generator};
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::hash::Hash;
 
 #[derive(Eq, PartialEq, Hash)]
@@ -50,16 +50,9 @@ fn parse_input(input: &str) -> Rules {
     input.lines().map(|rule_str| parse_rule(rule_str)).collect()
 }
 
-fn contains_color(
-    source_color: &Color,
-    target_color: &Color,
-    rules: &HashMap<Color, HashMap<Color, usize>>,
-) -> bool {
-    rules
-        .get(source_color)
-        .unwrap()
-        .keys()
-        .any(|color| *color == *target_color || contains_color(color, target_color, &rules))
+struct Node<'a> {
+    color: &'a Color,
+    previous_colors: Vec<&'a Color>,
 }
 
 #[aoc(day7, part1)]
@@ -69,10 +62,42 @@ fn part1(rules: &Rules) -> usize {
         shade: "shiny".to_string(),
     };
 
-    rules
+    let mut visited: HashSet<&Color> = HashSet::new();
+    let mut stack: Vec<Node> = rules
         .keys()
-        .filter(|outer_color| contains_color(&outer_color, &target_color, &rules))
-        .count()
+        .map(|color| Node {
+            color,
+            previous_colors: Vec::new(),
+        })
+        .collect();
+    let mut can_contain_target = HashSet::new();
+
+    while !stack.is_empty() {
+        let node = stack.pop().unwrap();
+
+        if *node.color == target_color {
+            can_contain_target.extend(node.previous_colors);
+            continue;
+        }
+
+        if !visited.contains(node.color) {
+            visited.insert(node.color);
+
+            for color in rules.get(node.color).unwrap().keys() {
+                let mut previous_colors = node.previous_colors.clone();
+                previous_colors.push(node.color);
+
+                stack.push(Node {
+                    color,
+                    previous_colors,
+                })
+            }
+        } else if can_contain_target.contains(node.color) {
+            can_contain_target.extend(node.previous_colors);
+        }
+    }
+
+    can_contain_target.len()
 }
 
 fn count_inner_bags(target_color: &Color, rules: &HashMap<Color, HashMap<Color, usize>>) -> usize {
