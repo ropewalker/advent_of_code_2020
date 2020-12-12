@@ -36,14 +36,9 @@ impl Mul<i32> for &Vector2 {
 
 impl Vector2 {
     fn rotate(&mut self, direction: &TurnDirection, degrees: i32) {
-        let sign = match direction {
-            TurnDirection::Left => 1,
-            TurnDirection::Right => -1,
-        };
+        use TurnDirection::*;
 
-        let degrees = degrees * sign;
-
-        let (cos, sin) = match (degrees / 90 % 4 + 4) % 4 {
+        let (cos, sin) = match degrees / 90 % 4 {
             0 => (1, 0),
             1 => (0, 1),
             2 => (-1, 0),
@@ -51,9 +46,14 @@ impl Vector2 {
             _ => unreachable!(),
         };
 
+        let sign = match direction {
+            Right => -1,
+            Left => 1,
+        };
+
         *self = Vector2 {
-            x: self.x * cos - self.y * sin,
-            y: self.x * sin + self.y * cos,
+            x: self.x * cos - self.y * sin * sign,
+            y: self.x * sin * sign + self.y * cos,
         }
     }
 }
