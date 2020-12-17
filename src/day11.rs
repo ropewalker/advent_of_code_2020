@@ -116,16 +116,12 @@ enum RoundResult {
 }
 
 fn count_adjacent_occupied(layout: &Layout, position: &Position) -> usize {
-    let mut count = 0;
-
-    for adjacent_position in position.adjacent_positions() {
-        match layout.0.get(&adjacent_position) {
-            Some(adjacent_tile_kind) if *adjacent_tile_kind == TileKind::OccupiedSeat => count += 1,
-            _ => {}
-        }
-    }
-
-    count
+    position
+        .adjacent_positions()
+        .iter()
+        .filter_map(|adjacent_position| layout.0.get(&adjacent_position))
+        .filter(|&adjacent_tile_kind| *adjacent_tile_kind == TileKind::OccupiedSeat)
+        .count()
 }
 
 fn count_visible_occupied(layout: &Layout, position: &Position) -> usize {
