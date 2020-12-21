@@ -38,7 +38,7 @@ fn parse_input(input: &str) -> Vec<Food> {
     input.lines().map(|line| parse_food(line)).collect()
 }
 
-fn compile_dictionary(shopping_list: &[Food]) -> HashMap<&str, HashSet<&str>> {
+fn compile_dictionary_draft(shopping_list: &[Food]) -> HashMap<&str, HashSet<&str>> {
     let mut allergens_to_possible_ingredients: HashMap<&str, HashSet<&str>> = HashMap::new();
 
     let all_allergens: HashSet<_> = shopping_list
@@ -81,7 +81,7 @@ fn compile_dictionary(shopping_list: &[Food]) -> HashMap<&str, HashSet<&str>> {
 
 #[aoc(day21, part1)]
 fn part1(shopping_list: &[Food]) -> usize {
-    let allergens_to_possible_ingredients = compile_dictionary(shopping_list);
+    let allergens_to_possible_ingredients = compile_dictionary_draft(shopping_list);
 
     let ingredients_with_allergens: HashSet<_> = allergens_to_possible_ingredients
         .values()
@@ -115,7 +115,7 @@ fn part1(shopping_list: &[Food]) -> usize {
 
 #[aoc(day21, part2)]
 fn part2(shopping_list: &[Food]) -> String {
-    let mut allergens_to_possible_ingredients = compile_dictionary(shopping_list);
+    let mut allergens_to_possible_ingredients = compile_dictionary_draft(shopping_list);
 
     let mut dictionary: Vec<(&str, &str)> = Vec::new();
 
