@@ -92,12 +92,8 @@ impl From<&Vector3> for (i32, i32, i32) {
 }
 
 impl From<(i32, i32, i32)> for Vector3 {
-    fn from(tuple: (i32, i32, i32)) -> Self {
-        Vector3 {
-            x: tuple.0,
-            y: tuple.1,
-            z: tuple.2,
-        }
+    fn from((x, y, z): (i32, i32, i32)) -> Self {
+        Vector3 { x, y, z }
     }
 }
 
@@ -193,13 +189,8 @@ impl From<&Vector4> for (i32, i32, i32, i32) {
 }
 
 impl From<(i32, i32, i32, i32)> for Vector4 {
-    fn from(tuple: (i32, i32, i32, i32)) -> Self {
-        Vector4 {
-            x: tuple.0,
-            y: tuple.1,
-            z: tuple.2,
-            w: tuple.3,
-        }
+    fn from((x, y, z, w): (i32, i32, i32, i32)) -> Self {
+        Vector4 { x, y, z, w }
     }
 }
 
