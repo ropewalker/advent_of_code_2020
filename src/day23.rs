@@ -62,7 +62,7 @@ fn move_few_cups(cups: &[Cup], moves: usize) -> [u32; 10] {
     next_cups
 }
 
-fn labels_after_first(next_cups: [u32; 10]) -> String {
+fn labels_after_first(next_cups: &[u32; 10]) -> String {
     let mut next_cup = next_cups[1];
     let mut result = String::new();
 
@@ -76,28 +76,36 @@ fn labels_after_first(next_cups: [u32; 10]) -> String {
 
 #[aoc(day23, part1)]
 fn part1(cups: &[Cup]) -> String {
-    labels_after_first(move_few_cups(cups, 100))
+    labels_after_first(&move_few_cups(cups, 100))
 }
 
 #[aoc(day23, part2)]
 fn part2(cups: &[Cup]) -> u64 {
-    let mut next_cups = [0; 1_000_000 + 1];
+    let mut first_next_cups = [0; 10];
 
-    next_cups[0] = cups[0];
+    first_next_cups[0] = cups[0];
 
     for i in 0..cups.len() - 1 {
-        next_cups[cups[i] as usize] = cups[i + 1];
+        first_next_cups[cups[i] as usize] = cups[i + 1];
     }
 
-    next_cups[cups[cups.len() - 1] as usize] = (cups.len() + 1) as u32;
-    next_cups[1_000_000] = cups[0];
+    first_next_cups[cups[cups.len() - 1] as usize] = (cups.len() + 1) as u32;
+
+    let mut all_next_cups: Vec<Cup> = Vec::with_capacity(1_000_000 + 1);
+    all_next_cups.extend(&first_next_cups);
+
+    for i in 10..1_000_000 {
+        all_next_cups.push(i + 1);
+    }
+
+    all_next_cups.push(cups[0]);
 
     for _ in 0..10_000_000 {
-        r#move(&mut next_cups);
+        r#move(&mut all_next_cups);
     }
 
-    let first = next_cups[1];
-    let second = next_cups[first as usize];
+    let first = all_next_cups[1];
+    let second = all_next_cups[first as usize];
 
     first as u64 * second as u64
 }
@@ -111,7 +119,7 @@ mod tests {
     #[test]
     fn part1_example() {
         assert_eq!(
-            labels_after_first(move_few_cups(&parse_input(TEST_INPUT), 10)),
+            labels_after_first(&move_few_cups(&parse_input(TEST_INPUT), 10)),
             "92658374"
         );
         assert_eq!(part1(&parse_input(TEST_INPUT)), "67384529");
@@ -119,7 +127,6 @@ mod tests {
 
     #[test]
     fn part2_example() {
-        //This fails with stack overflow!
-        //assert_eq!(part2(&parse_input(TEST_INPUT)), 149_245_887_792);
+        assert_eq!(part2(&parse_input(TEST_INPUT)), 149_245_887_792);
     }
 }
