@@ -2,7 +2,7 @@ use aoc_runner_derive::{aoc, aoc_generator};
 use std::collections::{HashMap, HashSet};
 use std::ops::{Add, AddAssign, Not};
 
-#[derive(Clone, Copy, Eq, PartialEq, Hash)]
+#[derive(Clone, Copy, Eq, PartialEq, Hash, Debug)]
 struct Vector3 {
     x: i32,
     y: i32,
@@ -258,4 +258,77 @@ fn count_black_after(floor: &mut TileFloor, days: usize) -> usize {
 fn part2(tiles_directions: &[Vec<Direction>]) -> usize {
     let mut floor: TileFloor = tiles_directions.into();
     count_black_after(&mut floor, 100)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const TEST_INPUT: &str = r"sesenwnenenewseeswwswswwnenewsewsw
+neeenesenwnwwswnenewnwwsewnenwseswesw
+seswneswswsenwwnwse
+nwnwneseeswswnenewneswwnewseswneseene
+swweswneswnenwsewnwneneseenw
+eesenwseswswnenwswnwnwsewwnwsene
+sewnenenenesenwsewnenwwwse
+wenwwweseeeweswwwnwwe
+wsweesenenewnwwnwsenewsenwwsesesenwne
+neeswseenwwswnwswswnw
+nenwswwsewswnenenewsenwsenwnesesenew
+enewnwewneswsewnwswenweswnenwsenwsw
+sweneswneswneneenwnewenewwneswswnese
+swwesenesewenwneswnwwneseswwne
+enesenwswwswneneswsenwnewswseenwsese
+wnwnesenesenenwwnenwsewesewsesesew
+nenewswnwewswnenesenwnesewesw
+eneswnwswnwsenenwnwnwwseeswneewsenese
+neswnwewnwnwseenwseesewsenwsweewe
+wseweeenwnesenwwwswnew";
+
+    #[test]
+    fn part1_example() {
+        assert_eq!(
+            follow_directions(&((0, 0, 0).into()), &parse_tile_directions("esenee")),
+            (3, -3, 0).into()
+        );
+        assert_eq!(
+            follow_directions(&((0, 0, 0).into()), &parse_tile_directions("esew")),
+            (0, -1, 1).into()
+        );
+        assert_eq!(
+            follow_directions(&((0, 0, 0).into()), &parse_tile_directions("nwwswee")),
+            (0, 0, 0).into()
+        );
+
+        assert_eq!(part1(&parse_input(TEST_INPUT)), 10);
+    }
+
+    #[test]
+    fn part2_example() {
+        let tiles_directions: &[_] = &parse_input(TEST_INPUT);
+        let mut floor: TileFloor = tiles_directions.into();
+
+        assert_eq!(count_black_after(&mut floor, 1), 15);
+        assert_eq!(count_black_after(&mut floor, 1), 12);
+        assert_eq!(count_black_after(&mut floor, 1), 25);
+        assert_eq!(count_black_after(&mut floor, 1), 14);
+        assert_eq!(count_black_after(&mut floor, 1), 23);
+        assert_eq!(count_black_after(&mut floor, 1), 28);
+        assert_eq!(count_black_after(&mut floor, 1), 41);
+        assert_eq!(count_black_after(&mut floor, 1), 37);
+        assert_eq!(count_black_after(&mut floor, 1), 49);
+        assert_eq!(count_black_after(&mut floor, 1), 37);
+
+        assert_eq!(count_black_after(&mut floor, 10), 132);
+        assert_eq!(count_black_after(&mut floor, 10), 259);
+        assert_eq!(count_black_after(&mut floor, 10), 406);
+        assert_eq!(count_black_after(&mut floor, 10), 566);
+        assert_eq!(count_black_after(&mut floor, 10), 788);
+        assert_eq!(count_black_after(&mut floor, 10), 1_106);
+        assert_eq!(count_black_after(&mut floor, 10), 1_373);
+        assert_eq!(count_black_after(&mut floor, 10), 1_844);
+        assert_eq!(count_black_after(&mut floor, 10), 2_208);
+
+        assert_eq!(part2(&parse_input(TEST_INPUT)), 2_208);
+    }
 }
