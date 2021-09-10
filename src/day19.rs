@@ -103,7 +103,7 @@ fn part1((rules, messages): &(Rules, Messages)) -> usize {
     messages
         .iter()
         .filter(|&message| {
-            if let Ok(remainder) = validate(&message, &rules, &rules[&0]) {
+            if let Ok(remainder) = validate(message, rules, &rules[&0]) {
                 remainder.is_empty()
             } else {
                 false
@@ -119,12 +119,12 @@ fn part2((rules, messages): &(Rules, Messages)) -> usize {
         .filter(|&message| {
             let mut count_42 = 0;
             let mut remainder = message.as_str();
-            let mut result = validate(&remainder, &rules, &rules[&42]);
+            let mut result = validate(remainder, rules, &rules[&42]);
 
             while let Ok(new_remainder) = result {
                 count_42 += 1;
                 remainder = new_remainder;
-                result = validate(&remainder, &rules, &rules[&42]);
+                result = validate(remainder, rules, &rules[&42]);
             }
 
             if count_42 < 2 {
@@ -132,12 +132,12 @@ fn part2((rules, messages): &(Rules, Messages)) -> usize {
             }
 
             let mut count_31 = 0;
-            result = validate(&remainder, &rules, &rules[&31]);
+            result = validate(remainder, rules, &rules[&31]);
 
             while let Ok(new_remainder) = result {
                 count_31 += 1;
                 remainder = new_remainder;
-                result = validate(&remainder, &rules, &rules[&31]);
+                result = validate(remainder, rules, &rules[&31]);
             }
 
             remainder.is_empty() && count_31 > 0 && count_42 > count_31

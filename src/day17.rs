@@ -51,7 +51,7 @@ trait Grid {
             .adjacent_positions()
             .iter()
             .filter(|adjacent_position| {
-                self.check_cube_state(&adjacent_position) == CubeState::Active
+                self.check_cube_state(adjacent_position) == CubeState::Active
             })
             .count()
     }
@@ -66,7 +66,7 @@ where
     type CubePosition = T;
 
     fn check_cube_state(&self, position: &Self::CubePosition) -> CubeState {
-        if let Some(&state) = (*self).get(&position) {
+        if let Some(&state) = (*self).get(position) {
             state
         } else {
             CubeState::Inactive
@@ -306,15 +306,15 @@ where
     grid.expand();
 
     for (position, cube_state) in grid.iter() {
-        if (*cube_state == CubeState::Inactive && inactive_flip_rule(&(*grid), &position))
-            || (*cube_state == CubeState::Active && active_flip_rule(&(*grid), &position))
+        if (*cube_state == CubeState::Inactive && inactive_flip_rule(&(*grid), position))
+            || (*cube_state == CubeState::Active && active_flip_rule(&(*grid), position))
         {
             to_flip.push(position.clone())
         }
     }
 
     for position in to_flip.iter() {
-        if let Some(cube_state) = grid.get_mut(&position) {
+        if let Some(cube_state) = grid.get_mut(position) {
             *cube_state = !(*cube_state);
         }
     }

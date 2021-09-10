@@ -67,7 +67,7 @@ fn validate_yr(maybe_year: &Option<String>, min_year: u32, max_year: u32) -> boo
 
     maybe_year
         .as_ref()
-        .filter(|yr| YR_REGEX.is_match(&yr))
+        .filter(|yr| YR_REGEX.is_match(yr))
         .filter(|yr| {
             let year = yr.parse::<u32>().unwrap();
             (min_year..=max_year).contains(&year)
@@ -93,7 +93,7 @@ fn validate_hgt(hgt: &Option<String>) -> bool {
     }
 
     hgt.as_ref()
-        .filter(|hgt| HGT_REGEX.is_match(&hgt))
+        .filter(|hgt| HGT_REGEX.is_match(hgt))
         .filter(|hgt| {
             let height = hgt[0..hgt.len() - 2].parse::<i32>().unwrap();
 
@@ -111,9 +111,7 @@ fn validate_hcl(hcl: &Option<String>) -> bool {
         static ref HCL_REGEX: Regex = Regex::new(r"^#(\d|[a-f]){6}$").unwrap();
     }
 
-    hcl.as_ref()
-        .filter(|clr| HCL_REGEX.is_match(&clr))
-        .is_some()
+    hcl.as_ref().filter(|clr| HCL_REGEX.is_match(clr)).is_some()
 }
 
 fn validate_ecl(ecl: &Option<String>) -> bool {
@@ -121,9 +119,7 @@ fn validate_ecl(ecl: &Option<String>) -> bool {
         static ref ECL_REGEX: Regex = Regex::new(r"^amb|blu|brn|gry|grn|hzl|oth$").unwrap();
     }
 
-    ecl.as_ref()
-        .filter(|clr| ECL_REGEX.is_match(&clr))
-        .is_some()
+    ecl.as_ref().filter(|clr| ECL_REGEX.is_match(clr)).is_some()
 }
 
 fn validate_pid(pid: &Option<String>) -> bool {
@@ -131,9 +127,7 @@ fn validate_pid(pid: &Option<String>) -> bool {
         static ref PID_REGEX: Regex = Regex::new(r"^\d{9}$").unwrap();
     }
 
-    pid.as_ref()
-        .filter(|pid| PID_REGEX.is_match(&pid))
-        .is_some()
+    pid.as_ref().filter(|pid| PID_REGEX.is_match(pid)).is_some()
 }
 
 fn validate_password_part2(entry: &PassportEntry) -> bool {

@@ -44,7 +44,7 @@ fn part1(map: &Map) -> usize {
 fn part2(map: &Map) -> usize {
     [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
         .iter()
-        .fold(1, |acc, slope| acc * count_trees(&map, slope))
+        .fold(1, |acc, slope| acc * count_trees(map, slope))
 }
 
 #[cfg(test)]

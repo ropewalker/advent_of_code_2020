@@ -119,7 +119,7 @@ fn count_adjacent_occupied(layout: &Layout, position: &Position) -> usize {
     position
         .adjacent_positions()
         .iter()
-        .filter_map(|adjacent_position| layout.0.get(&adjacent_position))
+        .filter_map(|adjacent_position| layout.0.get(adjacent_position))
         .filter(|&adjacent_tile_kind| *adjacent_tile_kind == TileKind::OccupiedSeat)
         .count()
 }
@@ -132,7 +132,7 @@ fn count_visible_occupied(layout: &Layout, position: &Position) -> usize {
     for direction in &[
         Northwest, North, Northeast, West, East, Southwest, South, Southeast,
     ] {
-        let mut next_position = position.adjacent_position(&direction);
+        let mut next_position = position.adjacent_position(direction);
 
         while let Some(tile_kind) = layout.0.get(&next_position) {
             match tile_kind {
@@ -141,7 +141,7 @@ fn count_visible_occupied(layout: &Layout, position: &Position) -> usize {
                     break;
                 }
                 TileKind::EmptySeat => break,
-                TileKind::Floor => next_position = next_position.adjacent_position(&direction),
+                TileKind::Floor => next_position = next_position.adjacent_position(direction),
             }
         }
     }
@@ -175,11 +175,11 @@ fn round(
 
     for (position, tile_kind) in layout.0.iter() {
         if (*tile_kind == TileKind::EmptySeat
-            && empty_seat_flip_rule(&layout, &position, count_function))
+            && empty_seat_flip_rule(layout, position, count_function))
             || (*tile_kind == TileKind::OccupiedSeat
                 && occupied_seat_flip_rule(
-                    &layout,
-                    &position,
+                    layout,
+                    position,
                     count_function,
                     occupied_seats_threshold,
                 ))

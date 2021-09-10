@@ -125,7 +125,7 @@ fn part2(shopping_list: &[Food]) -> String {
         for (&allergen, possible_ingredients) in allergens_to_possible_ingredients.iter_mut() {
             if possible_ingredients.len() == 1 {
                 ingredient = possible_ingredients.drain().next().unwrap();
-                dictionary.push((&allergen, &ingredient));
+                dictionary.push((allergen, ingredient));
 
                 allergens_to_possible_ingredients.remove(&allergen);
                 break;
@@ -137,7 +137,7 @@ fn part2(shopping_list: &[Food]) -> String {
         }
     }
 
-    dictionary.sort_unstable_by(|a, b| a.0.cmp(&b.0));
+    dictionary.sort_unstable_by(|a, b| a.0.cmp(b.0));
     let mut canonical_dangerous_ingredient_list =
         dictionary
             .iter()

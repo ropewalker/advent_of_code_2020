@@ -113,7 +113,7 @@ impl From<&[Vec<Direction>]> for TileFloor {
         let start = (0, 0, 0).into();
 
         for tile_directions in tiles_directions {
-            let coordinates = follow_directions(&start, &tile_directions);
+            let coordinates = follow_directions(&start, tile_directions);
 
             let color: TileColor = if let Some(&current_color) = floor.0.get(&coordinates) {
                 !current_color
@@ -226,15 +226,15 @@ fn update_floor(floor: &mut TileFloor) {
     let mut to_flip = Vec::new();
 
     for (coordinates, color) in floor.0.iter() {
-        if (*color == Black && black_flip_rule(&(*floor), &coordinates))
-            || (*color == White && white_flip_rule(&(*floor), &coordinates))
+        if (*color == Black && black_flip_rule(&(*floor), coordinates))
+            || (*color == White && white_flip_rule(&(*floor), coordinates))
         {
             to_flip.push(*coordinates)
         }
     }
 
     for coordinates in to_flip.iter() {
-        if let Some(color) = floor.0.get_mut(&coordinates) {
+        if let Some(color) = floor.0.get_mut(coordinates) {
             *color = !(*color);
         } else {
             floor.0.insert(*coordinates, Black);

@@ -55,11 +55,9 @@ fn parse_input(input: &str) -> Notes {
 
     let rules = parse_rules(notes_split.next().unwrap());
 
-    let mut tickets = Vec::new();
-
-    tickets.push(parse_raw_ticket(
+    let mut tickets = vec![parse_raw_ticket(
         notes_split.next().unwrap().lines().nth(1).unwrap(),
-    ));
+    )];
 
     tickets.extend(
         notes_split
@@ -124,7 +122,7 @@ fn get_correct_tickets(notes: &Notes) -> Vec<RawTicket> {
 }
 
 fn get_possible_positions_by_field(notes: &Notes) -> HashMap<&FieldName, HashSet<usize>> {
-    let correct_tickets = get_correct_tickets(&notes);
+    let correct_tickets = get_correct_tickets(notes);
 
     notes
         .rules
@@ -136,7 +134,7 @@ fn get_possible_positions_by_field(notes: &Notes) -> HashMap<&FieldName, HashSet
                     .filter(|i| {
                         correct_tickets
                             .iter()
-                            .all(|ticket| apply_rule(&rule, &ticket[*i]))
+                            .all(|ticket| apply_rule(rule, &ticket[*i]))
                     })
                     .collect::<HashSet<_>>(),
             )

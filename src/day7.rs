@@ -105,7 +105,7 @@ fn count_inner_bags(target_color: &Color, rules: &HashMap<Color, HashMap<Color, 
         .get(target_color)
         .unwrap()
         .iter()
-        .map(|(color, &qty)| count_inner_bags(color, &rules) * qty + qty)
+        .map(|(color, &qty)| count_inner_bags(color, rules) * qty + qty)
         .sum::<usize>()
 }
 
