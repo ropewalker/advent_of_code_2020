@@ -1,4 +1,5 @@
 use aoc_runner_derive::{aoc, aoc_generator};
+use itertools::Itertools;
 use std::collections::HashSet;
 use std::num::ParseIntError;
 
@@ -38,6 +39,15 @@ fn part1_bool_array(entries: &[Entry]) -> Option<Entry> {
     }
 
     None
+}
+
+#[aoc(day1, part1, Itertools)]
+fn part1_itertools(entries: &[Entry]) -> Option<Entry> {
+    entries
+        .iter()
+        .tuple_combinations()
+        .find(|(first, second)| *first + *second == 2020)
+        .map(|(first, second)| first * second)
 }
 
 #[aoc(day1, part2)]
@@ -80,6 +90,15 @@ fn part2_bool_array(entries: &[Entry]) -> Option<Entry> {
     None
 }
 
+#[aoc(day1, part2, Itertools)]
+fn part2_itertools(entries: &[Entry]) -> Option<Entry> {
+    entries
+        .iter()
+        .tuple_combinations()
+        .find(|(first, second, third)| *first + *second + *third == 2020)
+        .map(|(first, second, third)| first * second * third)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -89,6 +108,10 @@ mod tests {
         assert_eq!(part1(&[1_721, 979, 366, 299, 675, 1_456]), Some(514_579));
         assert_eq!(
             part1_bool_array(&[1_721, 979, 366, 299, 675, 1_456]),
+            Some(514_579)
+        );
+        assert_eq!(
+            part1_itertools(&[1_721, 979, 366, 299, 675, 1_456]),
             Some(514_579)
         );
     }
@@ -101,6 +124,10 @@ mod tests {
         );
         assert_eq!(
             part2_bool_array(&[1_721, 979, 366, 299, 675, 1_456]),
+            Some(241_861_950)
+        );
+        assert_eq!(
+            part2_itertools(&[1_721, 979, 366, 299, 675, 1_456]),
             Some(241_861_950)
         );
     }
